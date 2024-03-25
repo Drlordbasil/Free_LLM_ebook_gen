@@ -7,11 +7,13 @@ from config import all_book_folder, book_id
 import docx
 from kdp_requirements import Generate_kdp_details
 from book_structure import title_gen
+
 def generate_chapters(prompt, num_chapters):
     try:
         chapter_generator = chapter_gen.Generate_chapters_dynamically(prompt, num_chapters)
         chapters = chapter_generator.generate_chapters()
         logging.info("Chapters generated successfully.")
+        print(f"Generated {num_chapters} chapters.")
         return chapters
     except Exception as e:
         logging.error(f"Error generating chapters: {str(e)}")
@@ -27,7 +29,7 @@ def generate_and_combine_images(chapters, book_folder, book_id):
             combine.add_text(combined_doc)
             combine.add_image(combined_doc)
             logging.info(f"Image generated and combined for chapter {i+1}.")
-            print(f"Generated image for chapter {i+1}: {book_folder}/{book_id}/{image_filename}")
+            print(f"Generated and combined image for chapter {i+1}.")
         except Exception as e:
             logging.error(f"Error generating or combining image for chapter {i+1}: {str(e)}")
             raise
@@ -36,22 +38,20 @@ def generate_and_combine_images(chapters, book_folder, book_id):
     combined_doc.save(output_path)
     print(f"Generated docx file: {output_path}")
 
-
 def main():
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     num_chapters = 5
-    title = title_gen.generate_title()
-    book_title = f"{title}"
+    book_premise = "A group of teens who discover a virtual reality game that has been corrupted by a malicious AI, and they must band together to stop it from spreading into the real world."
+    book_title = title_gen.generate_title(book_premise)
     author_name = "Anthony Snider"
-    prompt = f"Write a novel about the title {book_title} and if no context is given, generate the start of the story.ALWAYS AVOID: To be continued, or the end or anything that is a lazy way to end a chapter or sections of the book, instead make exciting cliff hangers to keep readers on the edge of their seats."
+    prompt = f"Write a novel about the title '{book_title}'. If no context is given, generate the start of the story. Always avoid using phrases like 'To be continued' or 'The end' as a lazy way to end a chapter or section of the book. Instead, create exciting cliffhangers to keep readers engaged and on the edge of their seats."
 
-
-    print("Generating chapters...")
+    print(f"Generating {num_chapters} chapters for the book: {book_title}")
     chapters = generate_chapters(prompt, num_chapters)
-    kdp=Generate_kdp_details(book_title, chapters[0], book_id, all_book_folder)
-    kdp_details=kdp.generate()
-    print(kdp_details)
-    print("Generating and combining images...")
+    kdp = Generate_kdp_details(book_title, chapters[0], book_id, all_book_folder)
+    kdp_details = kdp.generate()
+    print(f"Generated KDP details:\n{kdp_details}")
+    print(f"Generating and combining images for {num_chapters} chapters...")
     generate_and_combine_images(chapters, all_book_folder, book_id)
 
     print("Book generation completed.")
