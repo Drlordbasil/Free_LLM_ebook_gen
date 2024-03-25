@@ -43,7 +43,7 @@ def main():
     title = title_gen.generate_title()
     book_title = f"{title}"
     author_name = "Anthony Snider"
-    prompt = f"Write a novel about the title {book_title} by {author_name} and if no context is given, generate the start of the story.ALWAYS AVOID: To be continued, The End, or any other phrases that indicate the story is incomplete."
+    prompt = f"Write a novel about the title {book_title} and if no context is given, generate the start of the story.ALWAYS AVOID: To be continued, The End, or any other phrases that indicate the story is incomplete."
 
 
     print("Generating chapters...")
