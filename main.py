@@ -38,7 +38,7 @@ def main():
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     
     prompt = "Write a novel about a young girl discovering her magical powers in a fantastical world."
-    num_chapters = 5
+    num_chapters = 25
 
     print("Generating chapters...")
     chapters = generate_chapters(prompt, num_chapters)
@@ -49,4 +49,5 @@ def main():
     print("Book generation completed.")
 
 if __name__ == "__main__":
-    main()
+    while True:
+     main()
