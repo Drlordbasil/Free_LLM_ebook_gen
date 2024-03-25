@@ -20,10 +20,11 @@ def generate_image(prompt: str, max_retries: int = 3, retry_delay: int = 2) -> O
     print("Max retries reached. Skipping image generation.")
     return None
 
-def save_image(image_path: str, target_folder: str, target_filename: str) -> Optional[str]:
+def save_image(image_path: str, book_folder: str, book_id: str, target_filename: str) -> Optional[str]:
     try:
-        os.makedirs(target_folder, exist_ok=True)
-        target_path = os.path.join(target_folder, target_filename)
+        unique_book_folder = os.path.join(book_folder, book_id)
+        os.makedirs(unique_book_folder, exist_ok=True)
+        target_path = os.path.join(unique_book_folder, target_filename)
         os.rename(image_path, target_path)
         print(f"Image saved as {target_path}")
         return target_path
@@ -31,17 +32,17 @@ def save_image(image_path: str, target_folder: str, target_filename: str) -> Opt
         print(f"Error saving image: {str(e)}")
         return None
 
-def generate_cover_image(book_folder: str, title: str, max_retries: int = 3, retry_delay: int = 2) -> Optional[str]:
+def generate_cover_image(book_folder: str, book_id: str, title: str, max_retries: int = 3, retry_delay: int = 2) -> Optional[str]:
     prompt = f"Generate an engaging and visually appealing ebook cover for the title: {title}. The cover should capture the essence of the book and attract potential readers."
     image_path = generate_image(prompt, max_retries, retry_delay)
     
     if image_path:
         target_filename = f"{title}_cover.jpg"
-        return save_image(image_path, book_folder, target_filename)
+        return save_image(image_path, book_folder, book_id, target_filename)
     
     return None
 
-def generate_context_image(book_folder: str, chapter_content: str, image_filename: str, max_retries: int = 3, retry_delay: int = 2) -> Optional[str]:
+def generate_context_image(book_folder: str, book_id: str, chapter_content: str, image_filename: str, max_retries: int = 3, retry_delay: int = 2) -> Optional[str]:
     if len(chapter_content) > 500:
         chapter_content = f"{chapter_content[:500]}..."
     
@@ -56,7 +57,7 @@ def generate_context_image(book_folder: str, chapter_content: str, image_filenam
             image_path = generate_image(prompt)
             
             if image_path:
-                return save_image(image_path, book_folder, image_filename)
+                return save_image(image_path, book_folder, book_id, image_filename)
         except Exception as e:
             print(f"Error generating context image (attempt {attempt + 1}): {str(e)}")
             if attempt < max_retries - 1:
