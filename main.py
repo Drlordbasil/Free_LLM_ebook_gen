@@ -36,9 +36,11 @@ def generate_and_combine_images(chapters, book_folder, book_id):
 
 def main():
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    
-    prompt = "Write a novel about a young girl discovering her magical powers in a fantastical world."
-    num_chapters = 25
+    num_chapters = 5
+    book_title = "The Coding Advantages and advancements in AI and ML: a comprehensive guide to the future of technology"
+    author_name = "Anthony Snider"
+    prompt = f"Write a novel about the title {book_title} by {author_name}"
+
 
     print("Generating chapters...")
     chapters = generate_chapters(prompt, num_chapters)
@@ -49,5 +51,4 @@ def main():
     print("Book generation completed.")
 
 if __name__ == "__main__":
-    while True:
-     main()
+    main()

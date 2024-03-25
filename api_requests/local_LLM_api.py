@@ -15,7 +15,7 @@ class mistral_chat(OpenAI):
         )
         self.model = model
 
-    def genarate_response(self, chapter_prompt):
+    def generate_response(self, chapter_prompt):
         response = self.client.chat.completions.create(
             model=self.model,
             messages=[
