@@ -6,7 +6,7 @@ from book_structure import combine_text_and_images
 from config import all_book_folder, book_id
 import docx
 from kdp_requirements import Generate_kdp_details
-
+from book_structure import title_gen
 def generate_chapters(prompt, num_chapters):
     try:
         chapter_generator = chapter_gen.Generate_chapters_dynamically(prompt, num_chapters)
@@ -36,12 +36,14 @@ def generate_and_combine_images(chapters, book_folder, book_id):
     combined_doc.save(output_path)
     print(f"Generated docx file: {output_path}")
 
+
 def main():
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     num_chapters = 5
-    book_title = "The Coding Advantages and advancements in AI and ML: a comprehensive guide to the future of technology"
+    title = title_gen.generate_title()
+    book_title = f"{title}"
     author_name = "Anthony Snider"
-    prompt = f"Write a novel about the title {book_title} by {author_name} and if no context is given, generate the start of the story, if not continue the story, never leaving 'to be continued' logic as this makes incoherencies in the book you are making."
+    prompt = f"Write a novel about the title {book_title} by {author_name} and if no context is given, generate the start of the story.ALWAYS AVOID: To be continued, The End, or any other phrases that indicate the story is incomplete."
 
 
     print("Generating chapters...")
