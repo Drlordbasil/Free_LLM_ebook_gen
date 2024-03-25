@@ -11,7 +11,7 @@ class Generate_kdp_details:
 
     def generate(self):
         kdp_details_text_format = f"Title: {self.book_title}\nAuthor: {self.author_name}\nChapter: {self.chapter}"
-        kdp_details = local_LLM_api.mistral_chat(
+        kdp_details = local_LLM_api.MistralChat(
             system="""
             Analyze the provided text containing the title and the first chapter of an ebook. 
             Extract the necessary information to formulate a Title, generate a Subtitle based on the content,
