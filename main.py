@@ -5,6 +5,8 @@ from api_requests import free_image_gen
 from book_structure import combine_text_and_images
 from config import all_book_folder, book_id
 import docx
+from kdp_requirements import Generate_kdp_details
+
 def generate_chapters(prompt, num_chapters):
     try:
         chapter_generator = chapter_gen.Generate_chapters_dynamically(prompt, num_chapters)
@@ -39,12 +41,14 @@ def main():
     num_chapters = 5
     book_title = "The Coding Advantages and advancements in AI and ML: a comprehensive guide to the future of technology"
     author_name = "Anthony Snider"
-    prompt = f"Write a novel about the title {book_title} by {author_name}"
+    prompt = f"Write a novel about the title {book_title} by {author_name} and if no context is given, generate the start of the story, if not continue the story, never leaving 'to be continued' logic as this makes incoherencies in the book you are making."
 
 
     print("Generating chapters...")
     chapters = generate_chapters(prompt, num_chapters)
-
+    kdp=Generate_kdp_details(book_title, author_name, chapters[0], book_id, all_book_folder)
+    kdp_details=kdp.generate()
+    print(kdp_details)
     print("Generating and combining images...")
     generate_and_combine_images(chapters, all_book_folder, book_id)
 
