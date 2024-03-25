@@ -1,7 +1,7 @@
 from api_requests.local_LLM_api import mistral_chat
 
 class Generate_chapters_dynamically:
-    def __init__(self, prompt, num_chapters, system_prompt="You are an amazing author", user_prompt=None):
+    def __init__(self, prompt, num_chapters, system_prompt="You are an amazing author that uses complex story mechanics and uses them as mirroring problems of day to day life for normal people.", user_prompt=None):
         self.prompt = prompt
         self.num_chapters = num_chapters
         self.system_prompt = system_prompt
@@ -30,7 +30,7 @@ class Generate_chapters_dynamically:
         
         try:
             current_content = self.chapters[chapter_index - 1]
-            extension_prompt = f"Continue the story from: {current_content[-250:]}"  # Use the last 250 characters as context
+            extension_prompt = f"Continue the story from: {current_content}"  # Use the last 250 characters as context
             
             extension = self.client.generate_response(extension_prompt)
             print(f"Extended chapter {chapter_index}: {extension}")
