@@ -43,12 +43,12 @@ def main():
     title = title_gen.generate_title()
     book_title = f"{title}"
     author_name = "Anthony Snider"
-    prompt = f"Write a novel about the title {book_title} and if no context is given, generate the start of the story.ALWAYS AVOID: To be continued, The End, or any other phrases that indicate the story is incomplete."
+    prompt = f"Write a novel about the title {book_title} and if no context is given, generate the start of the story.ALWAYS AVOID: To be continued, or the end or anything that is a lazy way to end a chapter or sections of the book, instead make exciting cliff hangers to keep readers on the edge of their seats."
 
 
     print("Generating chapters...")
     chapters = generate_chapters(prompt, num_chapters)
-    kdp=Generate_kdp_details(book_title, author_name, chapters[0], book_id, all_book_folder)
+    kdp=Generate_kdp_details(book_title, chapters[0], book_id, all_book_folder)
     kdp_details=kdp.generate()
     print(kdp_details)
     print("Generating and combining images...")
